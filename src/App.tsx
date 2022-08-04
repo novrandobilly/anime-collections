@@ -1,23 +1,21 @@
-import React, { FC } from 'react';
-import styled from '@emotion/styled';
+/** @jsxImportSource @emotion/react */
 
-const Button = styled.button`
-  background-color: #f0f0f0;
-  border: 1px solid #ccc;
-  border-radius: 3px;
-  color: #333;
-  font-size: 14px;
-  padding: 5px 10px;
-  margin: 0 10px;
-  &:hover {
-    background-color: #e0e0e0;
-  }
+import styled from '@emotion/styled';
+import { FC } from 'react';
+import Header from './components/shared/header';
+
+const AppContainer = styled.div`
+  padding: 0 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 `;
+
 const App: FC = () => {
   return (
-    <div>
-      <Button>Test Bro</Button>
-    </div>
+    <AppContainer>
+      <Header />
+    </AppContainer>
   );
 };
 
