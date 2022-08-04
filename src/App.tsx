@@ -1,26 +1,24 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { FC } from 'react';
+import styled from '@emotion/styled';
 
-function App() {
+const Button = styled.button`
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  color: #333;
+  font-size: 14px;
+  padding: 5px 10px;
+  margin: 0 10px;
+  &:hover {
+    background-color: #e0e0e0;
+  }
+`;
+const App: FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Button>Test Bro</Button>
     </div>
   );
-}
+};
 
 export default App;
