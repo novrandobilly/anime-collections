@@ -11,8 +11,6 @@ const FooterContainer = styled.div`
   gap: 4px;
   width: 100%;
   background-color: #eaddff;
-  position: absolute;
-  bottom: 0;
 `;
 
 const FooterLogo = styled.img`

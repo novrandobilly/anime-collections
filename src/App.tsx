@@ -3,23 +3,28 @@
 import styled from '@emotion/styled';
 import { FC } from 'react';
 import Header from './components/shared/header';
-import BulkAdd from './components/Homepage/bulk-add';
 import Footer from './components/shared/footer';
+import MobileNav from './components/shared/mobile-nav';
+import CollectionList from './pages/CollectionList';
 
 const Layout = styled.div`
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  justify-content: space-between;
   position: relative;
+  width: 100%;
+  padding-bottom: 56px;
+  min-height: 100vh;
+  box-sizing: border-box;
 `;
 
 const AppContainer = styled.div`
-  padding: 0 1rem 5rem;
+  padding: 0 0 1rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   gap: 1rem;
-  min-height: 100%;
+  height: 100%;
 `;
 
 const App: FC = () => {
@@ -27,9 +32,10 @@ const App: FC = () => {
     <Layout>
       <AppContainer>
         <Header />
-        <BulkAdd />
+        <CollectionList />
       </AppContainer>
       <Footer />
+      <MobileNav />
     </Layout>
   );
 };

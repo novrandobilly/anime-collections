@@ -8,6 +8,7 @@ const BulkAddContainer = styled.div`
   widht: 100%;
   align-items: center;
   gap: 0.25rem;
+  padding: 0 1rem;
 `;
 
 const Label = styled.p`
