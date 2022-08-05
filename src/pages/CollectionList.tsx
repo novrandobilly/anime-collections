@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import CollectionCard from '../components/CollectionList/collection-card';
+import TitleBlock from '../components/CollectionList/title-block';
 import styled from '@emotion/styled';
 
 const CollectionListContainer = styled.div`
@@ -15,6 +16,7 @@ const CollectionListContainer = styled.div`
 const CollectionList: FC = () => {
   return (
     <CollectionListContainer>
+      <TitleBlock />
       <CollectionCard />
     </CollectionListContainer>
   );

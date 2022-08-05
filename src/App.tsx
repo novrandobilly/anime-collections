@@ -5,7 +5,7 @@ import { FC } from 'react';
 import Header from './components/shared/header';
 import Footer from './components/shared/footer';
 import MobileNav from './components/shared/mobile-nav';
-import CollectionList from './pages/CollectionList';
+import CollectionDetails from './pages/CollectionDetails';
 
 const Layout = styled.div`
   display: flex;
@@ -32,7 +32,7 @@ const App: FC = () => {
     <Layout>
       <AppContainer>
         <Header />
-        <CollectionList />
+        <CollectionDetails />
       </AppContainer>
       <Footer />
       <MobileNav />
