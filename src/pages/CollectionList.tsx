@@ -18,6 +18,8 @@ const CollectionList: FC = () => {
     <CollectionListContainer>
       <TitleBlock />
       <CollectionCard />
+      <CollectionCard />
+      <CollectionCard />
     </CollectionListContainer>
   );
 };

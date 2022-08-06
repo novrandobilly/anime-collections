@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import styled from '@emotion/styled';
+import { Link } from 'react-router-dom';
 import HomeBlack from '../../assets/icons/home-icon-black.svg';
 import CollectionBlack from '../../assets/icons/collection-icon-black.svg';
 import Reset from '../../assets/icons/reset.svg';
@@ -17,7 +18,7 @@ const MobileNavContainer = styled.div`
   box-sizing: border-box;
 `;
 
-const MobileNavItem = styled.div`
+const MobileNavItem = styled.nav`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -49,14 +50,18 @@ const MobileNavLabel = styled.p`
 const MobileNav: FC = () => {
   return (
     <MobileNavContainer>
-      <MobileNavItem>
-        <MobileNavIcon src={HomeBlack} alt="Home Icon" />
-        <MobileNavLabel>Home</MobileNavLabel>
-      </MobileNavItem>
-      <MobileNavItem>
-        <MobileNavIcon src={CollectionBlack} alt="Collection Icon" />
-        <MobileNavLabel>Collection</MobileNavLabel>
-      </MobileNavItem>
+      <Link to="/">
+        <MobileNavItem>
+          <MobileNavIcon src={HomeBlack} alt="Home Icon" />
+          <MobileNavLabel>Home</MobileNavLabel>
+        </MobileNavItem>
+      </Link>
+      <Link to="/collection-list">
+        <MobileNavItem>
+          <MobileNavIcon src={CollectionBlack} alt="Collection Icon" />
+          <MobileNavLabel>Collection</MobileNavLabel>
+        </MobileNavItem>
+      </Link>
       <MobileNavItem>
         <MobileNavReset src={Reset} alt="Reset Icon" />
       </MobileNavItem>

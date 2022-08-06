@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import styled from '@emotion/styled';
+import { Link } from 'react-router-dom';
 import Logo from '../../assets/logo.svg';
 
 const HeaderDiv = styled.div`
@@ -14,9 +15,11 @@ const HeaderDiv = styled.div`
 
 const Header: FC = () => {
   return (
-    <HeaderDiv>
-      <img src={Logo} alt="Logo" />
-    </HeaderDiv>
+    <Link to="/">
+      <HeaderDiv>
+        <img src={Logo} alt="Logo" />
+      </HeaderDiv>
+    </Link>
   );
 };
 

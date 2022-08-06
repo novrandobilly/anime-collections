@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import { useParams } from 'react-router-dom';
 import DefaultImage from '../assets/default/default.jpg';
 import DetailsCard from '../components/AnimeDetails/details-card';
 import styled from '@emotion/styled';
@@ -31,6 +32,8 @@ const AnimeTitle = styled.h1`
 `;
 
 const AnimeDetails: FC = () => {
+  const { animeid } = useParams();
+  console.log(animeid);
   return (
     <DetailsContainer>
       <AnimeBanner src={DefaultImage} alt="Anime Banner" />
