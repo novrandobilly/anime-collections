@@ -5,6 +5,7 @@ import { FC } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { ApolloClient, InMemoryCache, ApolloProvider, HttpLink, from } from '@apollo/client';
 import { onError } from '@apollo/client/link/error';
+import { UserCollectionContextProvider } from './UserCollectionContext';
 
 import Header from './components/shared/header';
 import Footer from './components/shared/footer';
@@ -54,21 +55,23 @@ const client = new ApolloClient({
 const App: FC = () => {
   return (
     <ApolloProvider client={client}>
-      <Layout>
-        <AppContainer>
-          <Header />
-          <Routes>
-            <Route path="/" element={<Homepage />} />
-            <Route path="/collection-list">
-              <Route index element={<CollectionList />} />
-              <Route path=":collectionid" element={<CollectionDetails />} />
-            </Route>
-            <Route path="/anime/:animeid" element={<AnimeDetails />} />
-          </Routes>
-        </AppContainer>
-        <Footer />
-        <MobileNav />
-      </Layout>
+      <UserCollectionContextProvider>
+        <Layout>
+          <AppContainer>
+            <Header />
+            <Routes>
+              <Route path="/" element={<Homepage />} />
+              <Route path="/collection-list">
+                <Route index element={<CollectionList />} />
+                <Route path=":collectionid" element={<CollectionDetails />} />
+              </Route>
+              <Route path="/anime/:animeid" element={<AnimeDetails />} />
+            </Routes>
+          </AppContainer>
+          <Footer />
+          <MobileNav />
+        </Layout>
+      </UserCollectionContextProvider>
     </ApolloProvider>
   );
 };
