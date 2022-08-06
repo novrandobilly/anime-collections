@@ -5,7 +5,7 @@ import { FC } from 'react';
 import Header from './components/shared/header';
 import Footer from './components/shared/footer';
 import MobileNav from './components/shared/mobile-nav';
-import CollectionDetails from './pages/CollectionDetails';
+import ModalBulkAddCollection from './components/shared/modal-bulk-add-collection';
 
 const Layout = styled.div`
   display: flex;
@@ -32,7 +32,7 @@ const App: FC = () => {
     <Layout>
       <AppContainer>
         <Header />
-        <CollectionDetails />
+        <ModalBulkAddCollection />
       </AppContainer>
       <Footer />
       <MobileNav />
