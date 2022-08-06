@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import styled from '@emotion/styled';
 import GreenButton from '../shared/green-button';
+import { AnimeType } from '../../lib/data-types';
 
 const DetailsContainer = styled.div`
   display: flex;
@@ -9,6 +10,7 @@ const DetailsContainer = styled.div`
   justify-content: center;
   padding: 0 1rem;
   box-sizing: border-box;
+  width: 100%;
 `;
 
 const DetailsCardContainer = styled.div`
@@ -94,44 +96,58 @@ const SynopsisText = styled.p`
   line-height: 20px;
   letter-spacing: 0.25px;
   color: #484649;
+  margin-bottom: 1rem;
 `;
 
-const DetailsCard: FC = () => {
+type PropsType = {
+  anime: AnimeType;
+};
+
+const DetailsCard: FC<PropsType> = ({ anime }) => {
   return (
     <DetailsContainer>
       <DetailsCardContainer>
         <CollectionInfoContainer>
           <CollectionInfo>You haven't added this masterpiece to any collections</CollectionInfo>
           <DetailsTextContainer>
-            <KeyText>Genre:</KeyText> <ValueText>Action</ValueText>
+            <KeyText>Genre:</KeyText> <ValueText>{anime.genres.join(', ')}</ValueText>
           </DetailsTextContainer>
           <DetailsTextContainer>
-            <KeyText># of Episodes:</KeyText> <ValueText>48</ValueText>
+            <KeyText>Format:</KeyText> <ValueText>{anime.format}</ValueText>
           </DetailsTextContainer>
           <DetailsTextContainer>
-            <KeyText>Developer:</KeyText> <ValueText>Nihon Falcom</ValueText>
+            <KeyText>Status:</KeyText> <ValueText>{anime.status}</ValueText>
           </DetailsTextContainer>
           <DetailsTextContainer>
-            <KeyText>Platform:</KeyText> <ValueText>Windows PC, Nintendo Switch, Playstation 4</ValueText>
+            <KeyText># of Episodes:</KeyText> <ValueText>{anime.episodes}</ValueText>
           </DetailsTextContainer>
           <DetailsTextContainer>
-            <KeyText>Rating:</KeyText> <ValueText>4.7 of 5.0</ValueText>
+            <KeyText>Duration:</KeyText> <ValueText>~ {anime.duration} min/eps</ValueText>
+          </DetailsTextContainer>
+          <DetailsTextContainer>
+            <KeyText>Season:</KeyText> <ValueText>{anime.season}</ValueText>
+          </DetailsTextContainer>
+          <DetailsTextContainer>
+            <KeyText>Avg. Score:</KeyText> <ValueText>{anime.averageScore} out of 100</ValueText>
+          </DetailsTextContainer>
+          <DetailsTextContainer>
+            <KeyText>Popularity:</KeyText> <ValueText>{anime.popularity} </ValueText>
+          </DetailsTextContainer>
+          <DetailsTextContainer>
+            <KeyText>Site URL:</KeyText>{' '}
+            <a href={anime.siteUrl} target="_blank" rel="noreferrer">
+              <ValueText>{anime.siteUrl} </ValueText>
+            </a>
           </DetailsTextContainer>
 
           <div>
             <SynopsisContainer>
               <KeyTextSynopsis>Synopsis</KeyTextSynopsis>
             </SynopsisContainer>
-            <SynopsisText>
-              Now, Rean. Let us begin. Together, we shall write the end to this wretched fairy tale. In ink, black as
-              despair. Languishing in chains as dusk falls around him. A guiding light swallowed by the darkness, in an
-              empire shrouded by its curse. Filled with regrets that will never cease. Plagued by questions that will go
-              unanswered. Unable to protect that which he held dear, lost in despair over mistakes that cannot be
-              undone, he listlessly awaits his fate as a "Sacrifice." This is what has become of Rean Schwarzer, the
-              Ashen Chevalier. As he sits in darkness, the world edges ever closer to its demise. The Erebonian Empire,
-              the country with the most powerful military in recorded history, is now poised to swallow up the entire
-              continent under the banner of its largest invasion plan yet—Operation Jormungandr.
-            </SynopsisText>
+            {/* <SynopsisText>{anime.description}</SynopsisText> */}
+            {anime.description.split('<br>').map((paragraph, index) => (
+              <SynopsisText key={index}>{paragraph}</SynopsisText>
+            ))}
           </div>
         </CollectionInfoContainer>
       </DetailsCardContainer>

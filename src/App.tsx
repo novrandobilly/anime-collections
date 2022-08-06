@@ -3,6 +3,9 @@
 import styled from '@emotion/styled';
 import { FC } from 'react';
 import { Routes, Route } from 'react-router-dom';
+import { ApolloClient, InMemoryCache, ApolloProvider, HttpLink, from } from '@apollo/client';
+import { onError } from '@apollo/client/link/error';
+
 import Header from './components/shared/header';
 import Footer from './components/shared/footer';
 import MobileNav from './components/shared/mobile-nav';
@@ -27,25 +30,46 @@ const AppContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 1rem;
+  gap: 0;
   height: 100%;
 `;
 
+const errorLink = onError(({ graphQLErrors, networkError }) => {
+  if (graphQLErrors) {
+    graphQLErrors.map(({ message, locations, path }) =>
+      console.log(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`)
+    );
+  }
+  if (networkError) {
+    console.log(`[Network error]: ${networkError}`);
+  }
+});
+
+const link = from([errorLink, new HttpLink({ uri: 'https://graphql.anilist.co/' })]);
+
+const client = new ApolloClient({
+  cache: new InMemoryCache(),
+  link: link,
+});
 const App: FC = () => {
   return (
-    <Layout>
-      <AppContainer>
-        <Header />
-        <Routes>
-          <Route path="/" element={<Homepage />} />
-          <Route path="/collection-list" element={<CollectionList />} />
-          <Route path="/collection-list/:collectionid" element={<CollectionDetails />} />
-          <Route path="/anime/:animeid" element={<AnimeDetails />} />
-        </Routes>
-      </AppContainer>
-      <Footer />
-      <MobileNav />
-    </Layout>
+    <ApolloProvider client={client}>
+      <Layout>
+        <AppContainer>
+          <Header />
+          <Routes>
+            <Route path="/" element={<Homepage />} />
+            <Route path="/collection-list">
+              <Route index element={<CollectionList />} />
+              <Route path=":collectionid" element={<CollectionDetails />} />
+            </Route>
+            <Route path="/anime/:animeid" element={<AnimeDetails />} />
+          </Routes>
+        </AppContainer>
+        <Footer />
+        <MobileNav />
+      </Layout>
+    </ApolloProvider>
   );
 };
 

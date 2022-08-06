@@ -32,7 +32,7 @@ const Footer: FC = () => {
   return (
     <FooterContainer>
       <FooterLogo src={Logo} alt="Logo" />
-      <CopyrightLabel>© 2022 GeeXoduS All Rights Reserved</CopyrightLabel>
+      <CopyrightLabel>© 2022 GeeXoduS All Rights Reserved | Stanislaus Billy Novrando</CopyrightLabel>
     </FooterContainer>
   );
 };

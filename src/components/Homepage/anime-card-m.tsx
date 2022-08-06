@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
 import DefaultImage from '../../assets/default/default.jpg';
 import Plus from '../../assets/icons/plus.svg';
@@ -13,13 +14,16 @@ const CardContainer = styled.div`
   min-height: 164.48px;
   background: #ffffff;
   box-shadow: 0px 1.94128px 4.8532px rgba(0, 0, 0, 0.25);
-  border-radius: 7.76512px;
+  border-radius: 8px;
 `;
 
 const Banner = styled.img`
   width: 100%;
   min-width: 156px;
-  height: 116.48px;
+  height: 150px;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 8px 8px 0px 0px;
 `;
 const AddButton = styled.img`
   width: 1.5rem;
@@ -47,11 +51,12 @@ const Title = styled.h3`
   line-height: 20px;
   color: #484649;
   display: inline-block;
-  white-space: nowrap;
   width: 100%;
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   margin: 0;
+  text-decoration: none;
 `;
 
 const Genre = styled.p`
@@ -63,6 +68,11 @@ const Genre = styled.p`
   line-height: 16px;
   letter-spacing: 0.48532px;
   color: #aeaaae;
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
 `;
 
 const BannerContainer = styled.div`
@@ -73,20 +83,28 @@ type Props = {
   title: string;
   genre: string;
   banner?: string;
+  id: number;
 };
 
-const AnimeCardMobile: FC<Props> = ({ title, genre, banner }) => {
+const AnimeCardMobile: FC<Props> = ({ title, genre, banner, id }) => {
   return (
-    <CardContainer>
-      <BannerContainer>
-        <Banner src={banner || DefaultImage} alt="banner" />
-        <AddButton src={Plus} alt="Add" />
-      </BannerContainer>
-      <CaptionContainer>
-        <Title>{title}</Title>
-        <Genre>{genre}</Genre>
-      </CaptionContainer>
-    </CardContainer>
+    <Link
+      to={`anime/${id}`}
+      style={{
+        textDecoration: 'none',
+        color: 'inherit',
+      }}>
+      <CardContainer>
+        <BannerContainer>
+          <Banner src={banner || DefaultImage} alt="banner" />
+          <AddButton src={Plus} alt="Add" />
+        </BannerContainer>
+        <CaptionContainer>
+          <Title>{title}</Title>
+          <Genre>{genre}</Genre>
+        </CaptionContainer>
+      </CardContainer>
+    </Link>
   );
 };
 

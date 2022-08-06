@@ -5,12 +5,17 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 
+import { AnimeContextProvider } from './AnimeContext';
+
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
+
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <AnimeContextProvider>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </AnimeContextProvider>
   </React.StrictMode>
 );
 
