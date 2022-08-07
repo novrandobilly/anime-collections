@@ -2,6 +2,9 @@ import React, { FC } from 'react';
 import styled from '@emotion/styled';
 import XMark from '../../assets/icons/x-mark.svg';
 
+type cssIsOpen = {
+  isOpen: boolean;
+};
 const ModalContainer = styled.div`
   width: 328px;
   display: flex;
@@ -14,6 +17,12 @@ const ModalContainer = styled.div`
   box-sizing: border-box;
   border-radius: 1rem;
   border: 1px solid #e6e6e6;
+  position: fixed;
+  z-index: 20;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, ${(props: cssIsOpen) => (props.isOpen ? '-100%' : '-500%')});
+  transition: all 400ms ease-in-out;
 `;
 
 const CloseContainer = styled.div`
@@ -21,6 +30,7 @@ const CloseContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  margin-bottom: 1rem;
 `;
 
 const Icon = styled.img`
@@ -96,17 +106,26 @@ const DeleteButton = styled.button`
   border: none;
 `;
 
-const ModalDelete: FC = () => {
+type ModalDeleteProps = {
+  isOpen: boolean;
+  onClose: () => void;
+  message: string;
+  subMessage?: string;
+  onDelete: () => void;
+};
+
+const ModalDelete: FC<ModalDeleteProps> = ({ isOpen, onClose, message, subMessage, onDelete }) => {
   return (
-    <ModalContainer>
-      <CloseContainer>
+    <ModalContainer isOpen={isOpen}>
+      <CloseContainer onClick={onClose}>
         <Icon src={XMark} alt="Close button" />
       </CloseContainer>
-      <TitleText>Are you sure to delete this anime from your collection?</TitleText>
-      <SubTitle>*Subtitle Text</SubTitle>
+      <TitleText>{message ? message : 'Are you sure to delete this ?'}</TitleText>
+      {subMessage && <SubTitle>{subMessage}</SubTitle>}
+
       <ButtonContainer>
-        <CancelButton>Cancel</CancelButton>
-        <DeleteButton>Delete</DeleteButton>
+        <CancelButton onClick={onClose}>Cancel</CancelButton>
+        <DeleteButton onClick={onDelete}>Delete</DeleteButton>
       </ButtonContainer>
     </ModalContainer>
   );

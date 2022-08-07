@@ -88,16 +88,17 @@ type CollectionCardProps = {
   numberOfItems: number;
   collectionBanner: string;
   onEdit: (title: string) => void;
+  onDelete: (title: string) => void;
 };
 
-const CollectionCard: FC<CollectionCardProps> = ({ title, numberOfItems, collectionBanner, onEdit }) => {
+const CollectionCard: FC<CollectionCardProps> = ({ title, numberOfItems, collectionBanner, onEdit, onDelete }) => {
   return (
     <CollectionCardContainer>
       <CollectionCardBanner src={collectionBanner || DefaultCollectionImage} alt="Collection Banner" />
       <Title>{title}</Title>
       <CTAContainer>
         <CTA src={EditPurple} onClick={() => onEdit(title)} alt="Edit" />
-        <CTA src={DeleteWhite} alt="Delete" />
+        <CTA src={DeleteWhite} onClick={() => onDelete(title)} alt="Delete" />
       </CTAContainer>
       <CollectionNumber>
         <CollectionNumberText>

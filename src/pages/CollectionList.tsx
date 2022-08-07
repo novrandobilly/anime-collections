@@ -7,6 +7,7 @@ import { css } from '@emotion/react';
 
 import ModalAddNewCollection from '../components/shared/modal-add-new-collection';
 import ModalEditCollectionName from '../components/shared/modal-edit-collection-name';
+import ModalDelete from '../components/shared/modal-delete';
 import CollectionCard from '../components/CollectionList/collection-card';
 import TitleBlock from '../components/CollectionList/title-block';
 import Backdrop from '../components/shared/backdrop';
@@ -39,7 +40,10 @@ const CollectionList: FC = () => {
   const [selectedCollection, setSelectedCollection] = useState<string>('');
   const [newCollectionTitle, setNewCollectionTitle] = useState<string>('');
 
-  const { collectionList, editCollectionName } = useContext(UserCollectionContext);
+  const [showDeleteCollection, setShowDeleteCollection] = useState<boolean>(false);
+  const [selectedCollectionToDelete, setSelectedCollectionToDelete] = useState<string>('');
+
+  const { collectionList, editCollectionName, removeCollection } = useContext(UserCollectionContext);
 
   const handleAddNewCollection = () => {
     setShowAddNewCollection(true);
@@ -63,9 +67,20 @@ const CollectionList: FC = () => {
     setNewCollectionTitle('');
   };
 
+  const handleDeleteCollection = (title: string) => {
+    setShowDeleteCollection(true);
+    setSelectedCollectionToDelete(title);
+  };
+
   const handleCloseModal = () => {
     setShowAddNewCollection(false);
     setShowEditCollection(false);
+    setShowDeleteCollection(false);
+  };
+
+  const handleRemoveCollection = () => {
+    removeCollection(selectedCollectionToDelete);
+    setShowDeleteCollection(false);
   };
 
   const content = collectionList.length ? (
@@ -76,6 +91,7 @@ const CollectionList: FC = () => {
         numberOfItems={collection.animeCollection.length}
         collectionBanner={collection.animeCollection[0]?.coverImage.large}
         onEdit={(title: string) => handleEditCollection(title)}
+        onDelete={handleDeleteCollection}
       />
     ))
   ) : (
@@ -94,6 +110,14 @@ const CollectionList: FC = () => {
   );
   return (
     <>
+      <ModalDelete
+        isOpen={showDeleteCollection}
+        onClose={handleCloseModal}
+        message="Are you sure you want to delete this collection?"
+        subMessage={`You will lose all your anime in this collection.`}
+        onDelete={handleRemoveCollection}
+      />
+
       <ModalAddNewCollection isOpen={showAddNewCollection} onClose={handleCloseModal} />
       <ModalEditCollectionName
         isOpen={showEditCollection}
@@ -102,7 +126,11 @@ const CollectionList: FC = () => {
         newCollectionTitle={newCollectionTitle}
         onUpdateCollectionTitle={handleUpdateCollectionTitle}
       />
-      <Backdrop isOpen={showAddNewCollection || showEditCollection} onClose={handleCloseModal} />
+
+      <Backdrop
+        isOpen={showAddNewCollection || showEditCollection || showDeleteCollection}
+        onClose={handleCloseModal}
+      />
       <CollectionListContainer>
         <TitleBlock handleAddNewCollection={handleAddNewCollection} />
         {content}

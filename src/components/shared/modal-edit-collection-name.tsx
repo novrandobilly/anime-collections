@@ -55,6 +55,7 @@ const InputText = styled.input`
   background-color: #f6edff;
   border-radius: 4px;
   margin-bottom: 1.5rem;
+  padding: 0 0.5rem;
 `;
 
 const ButtonContainer = styled.div`
