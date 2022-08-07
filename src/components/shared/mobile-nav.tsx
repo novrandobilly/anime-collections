@@ -16,6 +16,7 @@ const MobileNavContainer = styled.div`
   position: fixed;
   bottom: 0;
   box-sizing: border-box;
+  z-index: 10;
 `;
 
 const MobileNavItem = styled.nav`

@@ -1,7 +1,13 @@
-import React, { FC } from 'react';
+import React, { FC, useContext, useState } from 'react';
 import styled from '@emotion/styled';
 import PlusPurple from '../../assets/icons/plus.svg';
 import XMark from '../../assets/icons/x-mark.svg';
+import AnimeContext from '../../UserCollectionContext';
+import { AnimeType } from '../../lib/data-types';
+
+type cssIsOpen = {
+  isOpen: boolean;
+};
 
 const ModalContainer = styled.div`
   width: 328px;
@@ -15,6 +21,12 @@ const ModalContainer = styled.div`
   box-sizing: border-box;
   border-radius: 1rem;
   border: 1px solid #e6e6e6;
+  position: fixed;
+  z-index: 20;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, ${(props: cssIsOpen) => (props.isOpen ? '-100%' : '-500%')});
+  transition: all 400ms ease-in-out;
 `;
 
 const CloseContainer = styled.div`
@@ -107,29 +119,70 @@ const UpdateButton = styled.button`
   color: #ffffff;
   border: none;
 `;
-const ModalAddToCollection: FC = () => {
-  return (
-    <ModalContainer>
-      <CloseContainer>
-        <Icon src={XMark} alt="Close button" />
-      </CloseContainer>
-      <Title>Add To Collection</Title>
-      <SubTitleContainer>
-        <SubTitle>Collection List</SubTitle>
-        <Icon src={PlusPurple} alt="Add to collection" />
-      </SubTitleContainer>
-      <CollectionItemContainer>
-        <CollectionItem>
-          <ItemTitle>Legend of Heroes</ItemTitle>
-          <Checkbox type={'checkbox'} />
-        </CollectionItem>
-        <CollectionItem>
-          <ItemTitle>YS Series</ItemTitle>
-          <Checkbox type={'checkbox'} />
-        </CollectionItem>
-      </CollectionItemContainer>
 
-      <UpdateButton>Update Collection</UpdateButton>
+const Form = styled.form`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}`;
+
+type ModalAddToCollectionProps = {
+  isOpen: boolean;
+  onClose: () => void;
+  onUpdateCollection: (selectedCollections: string[]) => void;
+  animeAdded: AnimeType;
+};
+
+const ModalAddToCollection: FC<ModalAddToCollectionProps> = ({ isOpen, onClose, onUpdateCollection, animeAdded }) => {
+  const [selectedCollections, setSelectedCollections] = useState<string[]>([]);
+  const { collectionList } = useContext(AnimeContext);
+
+  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    if (e.target.checked) {
+      setSelectedCollections((prev) => [...prev, value]);
+    } else {
+      setSelectedCollections((prev) => prev.filter((collection) => collection !== value));
+    }
+  };
+
+  const handleUpdate = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    onUpdateCollection(selectedCollections);
+    setSelectedCollections([]);
+  };
+  return (
+    <ModalContainer isOpen={isOpen}>
+      <Form onSubmit={handleUpdate}>
+        <CloseContainer>
+          <Icon onClick={onClose} src={XMark} alt="Close button" />
+        </CloseContainer>
+        <Title>Add To Collection</Title>
+        <SubTitleContainer>
+          <SubTitle>Collection List</SubTitle>
+          <Icon src={PlusPurple} alt="Add to collection" />
+        </SubTitleContainer>
+        <CollectionItemContainer>
+          {collectionList.map((collection, index) => (
+            <CollectionItem key={`collection-${index}`}>
+              <ItemTitle>{collection.collectionTitle}</ItemTitle>
+              <Checkbox
+                type="checkbox"
+                value={collection.collectionTitle}
+                onChange={handleCheckboxChange}
+                // checked={collectionList[
+                //   collectionList.findIndex((col) => col.collectionTitle === collection.collectionTitle)
+                // ].animeCollection.some((anime) => anime.id === animeAdded.id)}
+                checked={selectedCollections.includes(collection.collectionTitle)}
+              />
+            </CollectionItem>
+          ))}
+        </CollectionItemContainer>
+        <UpdateButton>Update Collection</UpdateButton>
+      </Form>
     </ModalContainer>
   );
 };

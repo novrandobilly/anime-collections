@@ -31,6 +31,7 @@ const AddButton = styled.img`
   position: absolute;
   top: 0.5rem;
   right: 0.5rem;
+  z-index: 5;
 `;
 
 const CaptionContainer = styled.div`
@@ -84,27 +85,37 @@ type Props = {
   genre: string;
   banner?: string;
   id: number;
+  onOpenAddToCollectionModal: () => void;
 };
 
-const AnimeCardMobile: FC<Props> = ({ title, genre, banner, id }) => {
+const AnimeCardMobile: FC<Props> = ({ title, genre, banner, id, onOpenAddToCollectionModal }) => {
   return (
-    <Link
-      to={`anime/${id}`}
-      style={{
-        textDecoration: 'none',
-        color: 'inherit',
-      }}>
-      <CardContainer>
-        <BannerContainer>
+    <CardContainer>
+      <BannerContainer>
+        <Link
+          to={`anime/${id}`}
+          style={{
+            textDecoration: 'none',
+            color: 'inherit',
+          }}>
           <Banner src={banner || DefaultImage} alt="banner" />
-          <AddButton src={Plus} alt="Add" />
-        </BannerContainer>
+        </Link>
+        {}
+        <AddButton src={Plus} alt="Add" onClick={onOpenAddToCollectionModal} />
+      </BannerContainer>
+      <Link
+        to={`anime/${id}`}
+        style={{
+          textDecoration: 'none',
+          color: 'inherit',
+          width: '100%',
+        }}>
         <CaptionContainer>
           <Title>{title}</Title>
           <Genre>{genre}</Genre>
         </CaptionContainer>
-      </CardContainer>
-    </Link>
+      </Link>
+    </CardContainer>
   );
 };
 
