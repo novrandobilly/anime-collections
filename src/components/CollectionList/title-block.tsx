@@ -25,6 +25,7 @@ const AddCollectionButton = styled.div`
   background-color: #7f67be;
   border-radius: 15px;
   padding: 0.25rem 0.5rem;
+  cursor: pointer;
 `;
 
 const AddCollentionIcon = styled.img`
@@ -41,11 +42,15 @@ const AddCollectionText = styled.p`
   color: #ffffff;
 `;
 
-const TitleBlock: FC = () => {
+type TitleBlockProps = {
+  handleAddNewCollection: () => void;
+};
+
+const TitleBlock: FC<TitleBlockProps> = ({ handleAddNewCollection }) => {
   return (
     <TitleBlockContainer>
       <TitleText>Collection List</TitleText>
-      <AddCollectionButton>
+      <AddCollectionButton onClick={handleAddNewCollection}>
         <AddCollentionIcon src={Plus} alt="Add Collection Icon" />
         <AddCollectionText>Add Collection</AddCollectionText>
       </AddCollectionButton>

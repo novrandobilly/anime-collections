@@ -1,8 +1,9 @@
 import React, { FC } from 'react';
-import ExampleImage from '../../assets/default/Example.jpg';
+import styled from '@emotion/styled';
+
+import DefaultCollectionImage from '../../assets/default/DefaultCollectionImage.jpeg';
 import EditPurple from '../../assets/icons/edit-purple.svg';
 import DeleteWhite from '../../assets/icons/delete-white.svg';
-import styled from '@emotion/styled';
 
 const ShadowGradient = styled.div`
   position: absolute;
@@ -82,17 +83,26 @@ const CollectionNumberText = styled.p`
   color: #ffffff;
 `;
 
-const CollectionCard: FC = () => {
+type CollectionCardProps = {
+  title: string;
+  numberOfItems: number;
+  collectionBanner: string;
+  onEdit: (title: string) => void;
+};
+
+const CollectionCard: FC<CollectionCardProps> = ({ title, numberOfItems, collectionBanner, onEdit }) => {
   return (
     <CollectionCardContainer>
-      <CollectionCardBanner src={ExampleImage} alt="Collection Banner" />
-      <Title>Liberl Arc</Title>
+      <CollectionCardBanner src={collectionBanner || DefaultCollectionImage} alt="Collection Banner" />
+      <Title>{title}</Title>
       <CTAContainer>
-        <CTA src={EditPurple} alt="Edit" />
+        <CTA src={EditPurple} onClick={() => onEdit(title)} alt="Edit" />
         <CTA src={DeleteWhite} alt="Delete" />
       </CTAContainer>
       <CollectionNumber>
-        <CollectionNumberText>Contains 3 Animes</CollectionNumberText>
+        <CollectionNumberText>
+          {numberOfItems <= 0 ? 'No Anime added yet' : `Contains ${numberOfItems} Anime${numberOfItems > 1 && 's'}`}
+        </CollectionNumberText>
       </CollectionNumber>
       <ShadowGradient />
     </CollectionCardContainer>

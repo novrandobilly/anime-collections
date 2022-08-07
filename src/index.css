@@ -25,3 +25,7 @@ span {
   font-weight: 300;
   margin: 0;
 }
+
+a {
+  text-decoration: none;
+}

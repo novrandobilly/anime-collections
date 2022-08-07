@@ -44,7 +44,7 @@ type PageInfoType = {
 
 const Homepage: FC = () => {
   const [anime, setAnime] = useState<AnimeType[]>([]);
-  const [pageInfo, setPageInfo] = useState<PageInfoType>({
+  const [, setPageInfo] = useState<PageInfoType>({
     total: 0,
     currentPage: 1,
     lastPage: 1,
@@ -86,7 +86,6 @@ const Homepage: FC = () => {
   const onPageChangeHandler = (event: React.ChangeEvent<unknown>, page: number) => {
     setPage(page);
   };
-  console.log(pageInfo);
 
   let cardContent = anime.length ? (
     <CardContainer>

@@ -2,6 +2,9 @@ import React, { FC } from 'react';
 import styled from '@emotion/styled';
 import XMark from '../../assets/icons/x-mark.svg';
 
+type cssIsOpen = {
+  isOpen: boolean;
+};
 const ModalContainer = styled.div`
   width: 328px;
   display: flex;
@@ -14,6 +17,12 @@ const ModalContainer = styled.div`
   box-sizing: border-box;
   border-radius: 1rem;
   border: 1px solid #e6e6e6;
+  position: fixed;
+  z-index: 20;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, ${(props: cssIsOpen) => (props.isOpen ? '-100%' : '-500%')});
+  transition: all 400ms ease-in-out;
 `;
 
 const CloseContainer = styled.div`
@@ -95,18 +104,45 @@ const UpdateButton = styled.button`
   border: none;
 `;
 
-const ModalEditCollectionName: FC = () => {
+const Form = styled.form`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}`;
+
+type ModalEditCollectionNameProps = {
+  isOpen: boolean;
+  onClose: () => void;
+  onEditCollectionTitle: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  newCollectionTitle: string;
+  onUpdateCollectionTitle: (e: React.FormEvent<HTMLFormElement>) => void;
+};
+
+const ModalEditCollectionName: FC<ModalEditCollectionNameProps> = ({
+  isOpen,
+  onClose,
+  onEditCollectionTitle,
+  newCollectionTitle,
+  onUpdateCollectionTitle,
+}) => {
   return (
-    <ModalContainer>
-      <CloseContainer>
+    <ModalContainer isOpen={isOpen}>
+      <CloseContainer onClick={onClose}>
         <Icon src={XMark} alt="Close button" />
       </CloseContainer>
       <Title>Edit Collection Name</Title>
-      <InputText type="text" />
-      <ButtonContainer>
-        <CancelButton>Cancel</CancelButton>
-        <UpdateButton>Update</UpdateButton>
-      </ButtonContainer>
+      <Form onSubmit={onUpdateCollectionTitle}>
+        <InputText type="text" onChange={onEditCollectionTitle} value={newCollectionTitle} />
+        <ButtonContainer>
+          <CancelButton type="button" onClick={onClose}>
+            Cancel
+          </CancelButton>
+          <UpdateButton type="submit">Update</UpdateButton>
+        </ButtonContainer>
+      </Form>
     </ModalContainer>
   );
 };
