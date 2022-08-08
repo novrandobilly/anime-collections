@@ -1,7 +1,10 @@
-import React, { FC } from 'react';
+/** @jsxImportSource @emotion/react */
+import React, { FC, useContext, useEffect, useState } from 'react';
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import GreenButton from '../shared/green-button';
 import { AnimeType } from '../../lib/data-types';
+import UserCollectionContext from '../../UserCollectionContext';
 
 const DetailsContainer = styled.div`
   display: flex;
@@ -101,14 +104,51 @@ const SynopsisText = styled.p`
 
 type PropsType = {
   anime: AnimeType;
+  onOpenAddToCollectionModal: () => void;
 };
 
-const DetailsCard: FC<PropsType> = ({ anime }) => {
+const DetailsCard: FC<PropsType> = ({ anime, onOpenAddToCollectionModal }) => {
+  const { collectionList } = useContext(UserCollectionContext);
+  const [collectionListOfThisAnime, setCollectionListOfThisAnime] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (collectionList.length === 0) {
+      return;
+    }
+    let isInCollection: string[] = [];
+    collectionList.forEach((collection) => {
+      const isInside = collection.animeCollection.some((collectionAnime) => collectionAnime.id === anime.id);
+      if (isInside) {
+        isInCollection.push(collection.collectionTitle);
+      }
+    });
+    setCollectionListOfThisAnime(isInCollection);
+  }, [collectionList, anime]);
+
   return (
     <DetailsContainer>
       <DetailsCardContainer>
         <CollectionInfoContainer>
-          <CollectionInfo>You haven't added this masterpiece to any collections</CollectionInfo>
+          {collectionListOfThisAnime.length < 1 ? (
+            <CollectionInfo>You haven't added this masterpiece to any collections</CollectionInfo>
+          ) : (
+            <CollectionInfo>
+              <span
+                css={css`
+                  color: #36b23b;
+                `}>
+                You saved this masterpiece to the following collections:{' '}
+              </span>
+              <span
+                css={css`
+                  color: #7f67be;
+                  font-weight: 700;
+                `}>
+                {' '}
+                {collectionListOfThisAnime.join(', ')}
+              </span>
+            </CollectionInfo>
+          )}
           <DetailsTextContainer>
             <KeyText>Genre:</KeyText> <ValueText>{anime.genres.join(', ')}</ValueText>
           </DetailsTextContainer>
@@ -151,7 +191,7 @@ const DetailsCard: FC<PropsType> = ({ anime }) => {
           </div>
         </CollectionInfoContainer>
       </DetailsCardContainer>
-      <GreenButton>Add To Collection</GreenButton>
+      <GreenButton onClick={onOpenAddToCollectionModal}>Add To Collection</GreenButton>
     </DetailsContainer>
   );
 };

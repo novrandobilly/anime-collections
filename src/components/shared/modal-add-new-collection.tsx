@@ -90,6 +90,18 @@ const Form = styled.form`
   box-sizing: border-box;
 }`;
 
+const ErrorText = styled.p`
+  width: 100%;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 14px;
+  text-align: start;
+  letter-spacing: 0.25px;
+  color: red;
+  margin-top: 1rem;
+`;
+
 type ModalAddNewCollectionProps = {
   isOpen: boolean;
   onClose: () => void;
@@ -97,13 +109,24 @@ type ModalAddNewCollectionProps = {
 
 const ModalAddNewCollection: FC<ModalAddNewCollectionProps> = ({ isOpen, onClose }) => {
   const [collectionTitle, setCollectionTitle] = useState<string>('');
-  const { addCollection } = useContext(UserCollectionContext);
+  const { collectionList, addCollection } = useContext(UserCollectionContext);
+  const [errorMessage, setErrorMessage] = useState<string>('');
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    const specialCharacterChecker = /[^a-zA-Z0-9]/g;
+    if (
+      collectionList.find((collection) => collection.collectionTitle === collectionTitle) ||
+      specialCharacterChecker.test(collectionTitle)
+    ) {
+      setErrorMessage('Collection Title cannot contain special characters or duplicate');
+      return;
+    }
     const collectionName = collectionTitle;
     addCollection(collectionName);
     setCollectionTitle('');
+    setErrorMessage('');
     onClose();
   };
 
@@ -114,6 +137,7 @@ const ModalAddNewCollection: FC<ModalAddNewCollectionProps> = ({ isOpen, onClose
       </CloseContainer>
       <Title>Collection Name</Title>
       <Form onSubmit={handleSubmit}>
+        {errorMessage && <ErrorText>{errorMessage}</ErrorText>}
         <InputText
           type="text"
           value={collectionTitle}

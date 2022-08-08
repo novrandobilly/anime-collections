@@ -114,12 +114,25 @@ const Form = styled.form`
   box-sizing: border-box;
 }`;
 
+const ErrorText = styled.p`
+  width: 100%;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 14px;
+  text-align: start;
+  letter-spacing: 0.25px;
+  color: red;
+  margin-top: 1rem;
+`;
+
 type ModalEditCollectionNameProps = {
   isOpen: boolean;
   onClose: () => void;
   onEditCollectionTitle: (e: React.ChangeEvent<HTMLInputElement>) => void;
   newCollectionTitle: string;
   onUpdateCollectionTitle: (e: React.FormEvent<HTMLFormElement>) => void;
+  errorMessage?: string;
 };
 
 const ModalEditCollectionName: FC<ModalEditCollectionNameProps> = ({
@@ -128,6 +141,7 @@ const ModalEditCollectionName: FC<ModalEditCollectionNameProps> = ({
   onEditCollectionTitle,
   newCollectionTitle,
   onUpdateCollectionTitle,
+  errorMessage,
 }) => {
   return (
     <ModalContainer isOpen={isOpen}>
@@ -136,6 +150,8 @@ const ModalEditCollectionName: FC<ModalEditCollectionNameProps> = ({
       </CloseContainer>
       <Title>Edit Collection Name</Title>
       <Form onSubmit={onUpdateCollectionTitle}>
+        {errorMessage && <ErrorText>{errorMessage}</ErrorText>}
+
         <InputText type="text" onChange={onEditCollectionTitle} value={newCollectionTitle} />
         <ButtonContainer>
           <CancelButton type="button" onClick={onClose}>

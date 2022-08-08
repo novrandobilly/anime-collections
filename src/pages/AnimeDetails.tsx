@@ -1,9 +1,12 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { gql, useQuery } from '@apollo/client';
 import { AnimeType } from '../lib/data-types';
 import { useNavigate } from 'react-router-dom';
+import Backdrop from '../components/shared/backdrop';
+import ModalAddToCollection from '../components/shared/modal-add-to-collection';
+import UserCollectionContext from '../UserCollectionContext';
 
 import Back from '../assets/icons/back.svg';
 import DefaultImage from '../assets/default/default.jpg';
@@ -63,6 +66,8 @@ const AnimeTitle = styled.h1`
 `;
 
 const AnimeDetails: FC = () => {
+  const { addAnimesToManyCollections } = useContext(UserCollectionContext);
+  const [showAddToCollectionModal, setShowAddToCollectionModal] = useState(false);
   const navigate = useNavigate();
   const [animeDetails, setAnimeDetails] = useState<AnimeType>({
     id: 0,
@@ -122,6 +127,17 @@ const AnimeDetails: FC = () => {
   }
 `);
 
+  const handleOpenAddToCollectionModal = () => {
+    setShowAddToCollectionModal(true);
+  };
+  const handleCloseAddToCollectionModal = () => {
+    setShowAddToCollectionModal(false);
+  };
+  const handleAddToCollection = (collectionList: string[]) => {
+    addAnimesToManyCollections([animeDetails], collectionList);
+    handleCloseAddToCollectionModal();
+  };
+
   useEffect(() => {
     if (data) {
       setAnimeDetails(data.Media);
@@ -129,15 +145,24 @@ const AnimeDetails: FC = () => {
   }, [data]);
 
   return (
-    <DetailsContainer>
-      <BackContainer onClick={() => navigate(-1)}>
-        <BackIcon src={Back} alt="Back button" />
-        Back
-      </BackContainer>
-      <AnimeBanner src={animeDetails.coverImage.large || DefaultImage} alt="Anime Banner" />
-      <AnimeTitle>{animeDetails.title.romaji}</AnimeTitle>
-      <DetailsCard anime={animeDetails} />
-    </DetailsContainer>
+    <>
+      <Backdrop isOpen={showAddToCollectionModal} onClose={handleCloseAddToCollectionModal} />
+      <ModalAddToCollection
+        isOpen={showAddToCollectionModal}
+        onClose={handleCloseAddToCollectionModal}
+        animeAdded={animeDetails}
+        onUpdateCollection={handleAddToCollection}
+      />
+      <DetailsContainer>
+        <BackContainer onClick={() => navigate(-1)}>
+          <BackIcon src={Back} alt="Back button" />
+          Back
+        </BackContainer>
+        <AnimeBanner src={animeDetails.coverImage.large || DefaultImage} alt="Anime Banner" />
+        <AnimeTitle>{animeDetails.title.romaji}</AnimeTitle>
+        <DetailsCard onOpenAddToCollectionModal={handleOpenAddToCollectionModal} anime={animeDetails} />
+      </DetailsContainer>
+    </>
   );
 };
 

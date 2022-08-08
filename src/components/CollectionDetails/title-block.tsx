@@ -33,9 +33,10 @@ type TitleBlockProps = {
 
 const TitleBlock: FC<TitleBlockProps> = ({ title }) => {
   const navigate = useNavigate();
-  const { editCollectionName } = useContext(UserCollectionContext);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [newCollectionTitle, setNewCollectionTitle] = useState(title);
+  const { collectionList, editCollectionName } = useContext(UserCollectionContext);
+  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
+  const [newCollectionTitle, setNewCollectionTitle] = useState<string>(title);
 
   const handleOpenEditModal = () => {
     setIsEditModalOpen(true);
@@ -50,7 +51,17 @@ const TitleBlock: FC<TitleBlockProps> = ({ title }) => {
 
   const handleUpdateCollectionTitle = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    const specialCharacterChecker = /[^a-zA-Z0-9]/g;
+    if (
+      collectionList.find((collection) => collection.collectionTitle === newCollectionTitle) ||
+      specialCharacterChecker.test(newCollectionTitle)
+    ) {
+      setErrorMessage('Collection Title cannot contain special characters or duplicate');
+      return;
+    }
     editCollectionName(title, newCollectionTitle);
+    setErrorMessage('');
     setIsEditModalOpen(false);
     navigate(`/collection-list/${newCollectionTitle.split(' ').join('-')}`);
   };
@@ -62,6 +73,7 @@ const TitleBlock: FC<TitleBlockProps> = ({ title }) => {
         onEditCollectionTitle={handleNewCollectionTitle}
         newCollectionTitle={newCollectionTitle}
         onUpdateCollectionTitle={handleUpdateCollectionTitle}
+        errorMessage={errorMessage}
       />
       <Backdrop isOpen={isEditModalOpen} onClose={handleCloseEditModal} />
       <TitleBlockContainer>

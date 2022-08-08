@@ -15,10 +15,11 @@ const GreenButtonItem = styled.button`
 
 type Props = {
   children: string;
+  onClick: () => void;
 };
 
-const GreenButton: FC<Props> = ({ children }) => {
-  return <GreenButtonItem>{children}</GreenButtonItem>;
+const GreenButton: FC<Props> = ({ children, onClick }) => {
+  return <GreenButtonItem onClick={onClick}>{children}</GreenButtonItem>;
 };
 
 export default GreenButton;

@@ -1,4 +1,4 @@
-import { createContext, useReducer } from 'react';
+import { createContext, useReducer, useEffect } from 'react';
 import { AnimeType } from './lib/data-types';
 
 type singleCollectionType = {
@@ -24,8 +24,17 @@ const UserCollectionContext = createContext<UserCollectionContextType>({
 });
 
 const reducer = (state: singleCollectionType[], action: any) => {
+  const specialCharacterChecker = /[^a-zA-Z0-9]/g;
   switch (action.type) {
     case 'ADD_COLLECTION':
+      if (
+        state.some(
+          (collection) =>
+            collection.collectionTitle === action.collectionName || specialCharacterChecker.test(action.collectionName)
+        )
+      ) {
+        return state;
+      }
       return [...state, { collectionTitle: action.collectionName, animeCollection: [] }];
     case 'ADD_ANIMES_TO_MANY_COLLECTIONS':
       return state.map((collection) => {
@@ -56,6 +65,13 @@ const reducer = (state: singleCollectionType[], action: any) => {
     case 'REMOVE_COLLECTION':
       return state.filter((collection) => collection.collectionTitle !== action.collectionName);
     case 'EDIT_COLLECTION_NAME':
+      if (
+        state.some(
+          (collection) => collection.collectionTitle === action.newName || specialCharacterChecker.test(action.newName)
+        )
+      ) {
+        return state;
+      }
       return state
         .map((collection) => {
           if (collection.collectionTitle === action.collectionName) {
@@ -75,7 +91,17 @@ const reducer = (state: singleCollectionType[], action: any) => {
 const initialState: singleCollectionType[] = [];
 
 export const UserCollectionContextProvider = ({ children }: { children: React.ReactNode }) => {
-  const [collectionList, dispatch] = useReducer(reducer, initialState);
+  const [collectionList, dispatch] = useReducer(reducer, initialState, () => {
+    const collectionList = localStorage.getItem('collectionList');
+    if (collectionList) {
+      return JSON.parse(collectionList);
+    }
+    return initialState;
+  });
+
+  useEffect(() => {
+    localStorage.setItem('collectionList', JSON.stringify(collectionList));
+  }, [collectionList]);
   return (
     <UserCollectionContext.Provider
       value={
