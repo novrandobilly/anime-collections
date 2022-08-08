@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import PlusPurple from '../../assets/icons/plus.svg';
 import XMark from '../../assets/icons/x-mark.svg';
 import CheckGreen from '../../assets/icons/check-green.svg';
-import AnimeContext from '../../UserCollectionContext';
+import UserCollectionContext from '../../UserCollectionContext';
 import { AnimeType } from '../../lib/data-types';
 
 type cssIsOpen = {
@@ -158,7 +158,7 @@ const ModalAddToCollection: FC<ModalAddToCollectionProps> = ({ isOpen, onClose, 
   const [collectionTitle, setCollectionTitle] = useState<string>('');
 
   const [isAddingCollection, setIsAddingCollection] = useState<boolean>(false);
-  const { collectionList, addCollection } = useContext(AnimeContext);
+  const { collectionList, addCollection } = useContext(UserCollectionContext);
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;

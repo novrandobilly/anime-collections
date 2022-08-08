@@ -1,6 +1,8 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import styled from '@emotion/styled';
 import BulkAddPlus from '../../assets/icons/bulk-add-plus.svg';
+import Backdrop from '../shared/backdrop';
+import ModalBulkAddCollection from '../shared/modal-bulk-add-collection';
 
 const BulkAddContainer = styled.div`
   display: flex;
@@ -28,12 +30,34 @@ const BulkAddIcon = styled.img`
   height: 1.5rem;
 `;
 
+const BulkAddAligner = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+`;
+
 const BulkAdd: FC = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleClose = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleOpen = () => {
+    setIsModalOpen(true);
+  };
+
   return (
-    <BulkAddContainer>
-      <Label>Bulk Add Collection </Label>
-      <BulkAddIcon src={BulkAddPlus} alt="Bulk Add Plus" />
-    </BulkAddContainer>
+    <>
+      <Backdrop isOpen={isModalOpen} onClose={handleClose} />
+      <ModalBulkAddCollection isOpen={isModalOpen} onClose={handleClose} />
+      <BulkAddContainer>
+        <BulkAddAligner onClick={handleOpen}>
+          <Label>Bulk Add Collection </Label>
+          <BulkAddIcon src={BulkAddPlus} alt="Bulk Add Plus" />
+        </BulkAddAligner>
+      </BulkAddContainer>
+    </>
   );
 };
 

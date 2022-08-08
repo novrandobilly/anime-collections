@@ -1,5 +1,8 @@
+/** @jsxImportSource @emotion/react */
+
 import React, { FC, useContext, useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+import { css } from '@emotion/react';
 import TitleBlock from '../components/CollectionDetails/title-block';
 import AnimeCard from '../components/CollectionDetails/anime-card';
 import styled from '@emotion/styled';
@@ -18,7 +21,19 @@ const CollectionDetailsContainer = styled.div`
   box-sizing: border-box;
 `;
 
+const EmptyLabel = styled.p`
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0.5px;
+  color: #606060;
+  text-align: center;
+  margin-top: 1rem;
+`;
+
 const CollectionDetails: FC = () => {
+  const navigate = useNavigate();
   const { collectionList, removeAnimeFromCollection } = useContext(UserCollectionContext);
   const [animeList, setAnimeList] = useState<AnimeType[]>([]);
   const { collectionid } = useParams();
@@ -46,6 +61,36 @@ const CollectionDetails: FC = () => {
     setShowDelete(false);
   };
 
+  const content = animeList.length ? (
+    animeList.map((anime) => {
+      return (
+        <AnimeCard
+          key={anime.id}
+          anime={{
+            title: anime.title.romaji,
+            genre: anime.genres,
+            bannerImage: anime.coverImage.large,
+            id: anime.id,
+          }}
+          onDelete={handleOpenDelete}
+        />
+      );
+    })
+  ) : (
+    <EmptyLabel>
+      You have no Anime yet in this collection.{' '}
+      <span
+        css={css`
+          color: #7f67be;
+          font-style: italic;
+          cursor: pointer;
+        `}
+        onClick={() => navigate('/')}>
+        Add new anime.
+      </span>
+    </EmptyLabel>
+  );
+
   return (
     <>
       <ModalDelete
@@ -57,20 +102,7 @@ const CollectionDetails: FC = () => {
       <Backdrop isOpen={showDelete} onClose={handleCloseDelete} />
       <CollectionDetailsContainer>
         <TitleBlock title={collectionid?.split('-').join(' ') || 'Loading...'} />
-        {animeList.map((anime) => {
-          return (
-            <AnimeCard
-              key={anime.id}
-              anime={{
-                title: anime.title.romaji,
-                genre: anime.genres,
-                bannerImage: anime.coverImage.large,
-                id: anime.id,
-              }}
-              onDelete={handleOpenDelete}
-            />
-          );
-        })}
+        {content}
       </CollectionDetailsContainer>
     </>
   );
