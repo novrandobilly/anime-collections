@@ -9,7 +9,7 @@ type UserCollectionContextType = {
   collectionList: singleCollectionType[];
   addCollection: (collectionName: string) => void;
   addAnimesToManyCollections: (animes: AnimeType[], collectionNames: string[]) => void;
-  removeAnimeFromCollection: (collectionName: string, anime: AnimeType) => void;
+  removeAnimeFromCollection: (collectionName: string, animeId: number) => void;
   removeCollection: (collectionName: string) => void;
   editCollectionName: (collectionName: string, newName: string) => void;
 };
@@ -18,7 +18,7 @@ const UserCollectionContext = createContext<UserCollectionContextType>({
   collectionList: [],
   addCollection: (collectionName: string) => {},
   addAnimesToManyCollections: (animes: AnimeType[], collectionNames: string[]) => {},
-  removeAnimeFromCollection: (collectionName: string, anime: AnimeType) => {},
+  removeAnimeFromCollection: (collectionName: string, animeId: number) => {},
   removeCollection: (collectionName: string) => {},
   editCollectionName: (collectionName: string, newName: string) => {},
 });
@@ -43,17 +43,16 @@ const reducer = (state: singleCollectionType[], action: any) => {
       });
 
     case 'REMOVE_ANIME_FROM_COLLECTION':
-      return state
-        .map((collection) => {
-          if (collection.collectionTitle === action.collectionName) {
-            return {
-              ...collection,
-              animeCollection: collection.animeCollection.filter((anime) => anime.id !== action.anime.id),
-            };
-          }
-          return collection;
-        })
-        .filter((collection) => collection.collectionTitle !== action.collectionName);
+      return state.map((collection) => {
+        if (collection.collectionTitle === action.collectionName) {
+          return {
+            ...collection,
+            animeCollection: collection.animeCollection.filter((anime) => anime.id !== action.animeId),
+          };
+        }
+        return collection;
+      });
+
     case 'REMOVE_COLLECTION':
       return state.filter((collection) => collection.collectionTitle !== action.collectionName);
     case 'EDIT_COLLECTION_NAME':
@@ -85,8 +84,8 @@ export const UserCollectionContextProvider = ({ children }: { children: React.Re
           addCollection: (collectionName: string) => dispatch({ type: 'ADD_COLLECTION', collectionName }),
           addAnimesToManyCollections: (animes: AnimeType[], collectionNames: string[]) =>
             dispatch({ type: 'ADD_ANIMES_TO_MANY_COLLECTIONS', animes, collectionNames }),
-          removeAnimeFromCollection: (collectionName: string, anime: AnimeType) =>
-            dispatch({ type: 'REMOVE_ANIME_FROM_COLLECTION', collectionName, anime }),
+          removeAnimeFromCollection: (collectionName: string, animeId: number) =>
+            dispatch({ type: 'REMOVE_ANIME_FROM_COLLECTION', collectionName, animeId }),
           removeCollection: (collectionName: string) => dispatch({ type: 'REMOVE_COLLECTION', collectionName }),
           editCollectionName: (collectionName: string, newName: string) =>
             dispatch({ type: 'EDIT_COLLECTION_NAME', collectionName, newName }),

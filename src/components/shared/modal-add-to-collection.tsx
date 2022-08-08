@@ -2,6 +2,7 @@ import React, { FC, useContext, useState } from 'react';
 import styled from '@emotion/styled';
 import PlusPurple from '../../assets/icons/plus.svg';
 import XMark from '../../assets/icons/x-mark.svg';
+import CheckGreen from '../../assets/icons/check-green.svg';
 import AnimeContext from '../../UserCollectionContext';
 import { AnimeType } from '../../lib/data-types';
 
@@ -118,6 +119,10 @@ const UpdateButton = styled.button`
   letter-spacing: 0.1px;
   color: #ffffff;
   border: none;
+  &:disabled {
+    background: #e6e6e6;
+    color: #484649;
+  }
 `;
 
 const Form = styled.form`
@@ -129,6 +134,18 @@ const Form = styled.form`
   box-sizing: border-box;
 }`;
 
+const InputText = styled.input`
+  width: 100%;
+  height: 1.5rem;
+  border: none;
+  outline: none;
+  background-color: #f6edff;
+  border-radius: 4px;
+  margin-bottom: 1.5rem;
+  padding: 0 0.5rem;
+  box-sizing: border-box;
+`;
+
 type ModalAddToCollectionProps = {
   isOpen: boolean;
   onClose: () => void;
@@ -138,7 +155,10 @@ type ModalAddToCollectionProps = {
 
 const ModalAddToCollection: FC<ModalAddToCollectionProps> = ({ isOpen, onClose, onUpdateCollection, animeAdded }) => {
   const [selectedCollections, setSelectedCollections] = useState<string[]>([]);
-  const { collectionList } = useContext(AnimeContext);
+  const [collectionTitle, setCollectionTitle] = useState<string>('');
+
+  const [isAddingCollection, setIsAddingCollection] = useState<boolean>(false);
+  const { collectionList, addCollection } = useContext(AnimeContext);
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -154,6 +174,19 @@ const ModalAddToCollection: FC<ModalAddToCollectionProps> = ({ isOpen, onClose, 
     onUpdateCollection(selectedCollections);
     setSelectedCollections([]);
   };
+
+  const handleAddNewCollection = (e: React.MouseEvent<HTMLImageElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const collectionName = collectionTitle;
+    if (collectionName.length > 0) {
+      addCollection(collectionName);
+    }
+
+    setCollectionTitle('');
+    setIsAddingCollection(false);
+  };
+
   return (
     <ModalContainer isOpen={isOpen}>
       <Form onSubmit={handleUpdate}>
@@ -163,7 +196,11 @@ const ModalAddToCollection: FC<ModalAddToCollectionProps> = ({ isOpen, onClose, 
         <Title>Add To Collection</Title>
         <SubTitleContainer>
           <SubTitle>Collection List</SubTitle>
-          <Icon src={PlusPurple} alt="Add to collection" />
+          {!isAddingCollection ? (
+            <Icon src={PlusPurple} alt="Add to collection" onClick={() => setIsAddingCollection(true)} />
+          ) : (
+            <Icon src={CheckGreen} alt="Add to collection" onClick={handleAddNewCollection} />
+          )}
         </SubTitleContainer>
         <CollectionItemContainer>
           {collectionList.map((collection, index) => (
@@ -173,15 +210,19 @@ const ModalAddToCollection: FC<ModalAddToCollectionProps> = ({ isOpen, onClose, 
                 type="checkbox"
                 value={collection.collectionTitle}
                 onChange={handleCheckboxChange}
-                // checked={collectionList[
-                //   collectionList.findIndex((col) => col.collectionTitle === collection.collectionTitle)
-                // ].animeCollection.some((anime) => anime.id === animeAdded.id)}
                 checked={selectedCollections.includes(collection.collectionTitle)}
               />
             </CollectionItem>
           ))}
+          {isAddingCollection && (
+            <InputText
+              type="text"
+              value={collectionTitle}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCollectionTitle(e.target.value)}
+            />
+          )}
         </CollectionItemContainer>
-        <UpdateButton>Update Collection</UpdateButton>
+        <UpdateButton disabled={isAddingCollection}>Update Collection</UpdateButton>
       </Form>
     </ModalContainer>
   );

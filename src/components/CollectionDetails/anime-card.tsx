@@ -1,7 +1,12 @@
-import React from 'react';
-import Example from '../../assets/default/Example.jpg';
-import Delete from '../../assets/icons/delete-red.svg';
+/** @jsxImportSource @emotion/react */
+
+import React, { FC } from 'react';
 import styled from '@emotion/styled';
+import { Link } from 'react-router-dom';
+import { css } from '@emotion/react';
+
+import Default from '../../assets/default/default.jpg';
+import Delete from '../../assets/icons/delete-red.svg';
 
 const AnimeCardContainer = styled.div`
   width: 100%;
@@ -63,16 +68,38 @@ const DeleteIcon = styled.img`
   height: 24px;
 `;
 
-const AnimeCard = () => {
+type AnimeCardProps = {
+  anime: {
+    title: string;
+    genre: string[];
+    bannerImage: string;
+    id: number;
+  };
+  onDelete: (animeId: number) => void;
+};
+
+const AnimeCard: FC<AnimeCardProps> = ({ anime, onDelete }) => {
   return (
     <AnimeCardContainer>
-      <AnimeCardImage src={Example} alt="Anime Banner" />
+      <Link
+        to={`/anime/${anime.id}`}
+        css={css`
+          width: 100%;
+        `}>
+        <AnimeCardImage src={anime.bannerImage || Default} alt="Anime Banner" />
+      </Link>
       <DetailsContainer>
-        <CaptionContainer>
-          <Title>Trails In The Sky: SC</Title>
-          <Genre>Action</Genre>
-        </CaptionContainer>
-        <DeleteIcon src={Delete} alt="Delete button" />
+        <Link
+          to={`/anime/${anime.id}`}
+          css={css`
+            width: 100%;
+          `}>
+          <CaptionContainer>
+            <Title>{anime.title}</Title>
+            <Genre>{anime.genre.join(', ')}</Genre>
+          </CaptionContainer>
+        </Link>
+        <DeleteIcon src={Delete} alt="Delete button" onClick={() => onDelete(anime.id)} />
       </DetailsContainer>
     </AnimeCardContainer>
   );

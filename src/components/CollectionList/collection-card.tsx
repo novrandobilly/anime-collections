@@ -1,5 +1,8 @@
+/** @jsxImportSource @emotion/react */
 import React, { FC } from 'react';
 import styled from '@emotion/styled';
+import { Link } from 'react-router-dom';
+import { css } from '@emotion/react';
 
 import DefaultCollectionImage from '../../assets/default/DefaultCollectionImage.jpeg';
 import EditPurple from '../../assets/icons/edit-purple.svg';
@@ -94,18 +97,32 @@ type CollectionCardProps = {
 const CollectionCard: FC<CollectionCardProps> = ({ title, numberOfItems, collectionBanner, onEdit, onDelete }) => {
   return (
     <CollectionCardContainer>
-      <CollectionCardBanner src={collectionBanner || DefaultCollectionImage} alt="Collection Banner" />
-      <Title>{title}</Title>
+      <Link
+        to={`/collection-list/${title.split(' ').join('-')}`}
+        css={css`
+          width: 100%;
+        `}>
+        <CollectionCardBanner src={collectionBanner || DefaultCollectionImage} alt="Collection Banner" />
+        <Title>{title}</Title>
+      </Link>
+
       <CTAContainer>
         <CTA src={EditPurple} onClick={() => onEdit(title)} alt="Edit" />
         <CTA src={DeleteWhite} onClick={() => onDelete(title)} alt="Delete" />
       </CTAContainer>
-      <CollectionNumber>
-        <CollectionNumberText>
-          {numberOfItems <= 0 ? 'No Anime added yet' : `Contains ${numberOfItems} Anime${numberOfItems > 1 && 's'}`}
-        </CollectionNumberText>
-      </CollectionNumber>
-      <ShadowGradient />
+      <Link
+        to={`/collection-list/${title.split(' ').join('-')}`}
+        css={css`
+          width: 100%;
+        `}>
+        <CollectionNumber>
+          <CollectionNumberText>
+            {numberOfItems <= 0 ? 'No Anime added yet' : `Contains ${numberOfItems} Anime${numberOfItems > 1 && 's'}`}
+          </CollectionNumberText>
+        </CollectionNumber>
+
+        <ShadowGradient />
+      </Link>
     </CollectionCardContainer>
   );
 };

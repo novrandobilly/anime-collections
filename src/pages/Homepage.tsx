@@ -49,7 +49,7 @@ type PageInfoType = {
 const Homepage: FC = () => {
   const [showAddToCollectionModal, setShowAddToCollectionModal] = useState<boolean>(false);
   const [anime, setAnime] = useState<AnimeType[]>([]);
-  const { collectionList, addAnimesToManyCollections } = useContext(UserCollectionContext);
+  const { addAnimesToManyCollections } = useContext(UserCollectionContext);
 
   const [animeAdded, setAnimeAdded] = useState<AnimeType[]>([]);
 
@@ -66,8 +66,6 @@ const Homepage: FC = () => {
     setShowAddToCollectionModal(false);
     setAnimeAdded([]);
   };
-
-  console.log(collectionList);
 
   const handleOpenAddToCollectionModal = (animeId: number) => {
     setShowAddToCollectionModal(true);
