@@ -1,10 +1,11 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
 import HomeBlack from '../../assets/icons/home-icon-black.svg';
 import CollectionBlack from '../../assets/icons/collection-icon-black.svg';
 import Reset from '../../assets/icons/reset.svg';
-
+import Backdrop from './backdrop';
+import ModalReset from './modal-reset';
 const MobileNavContainer = styled.div`
   width: 100%;
   display: flex;
@@ -49,24 +50,38 @@ const MobileNavLabel = styled.p`
 `;
 
 const MobileNav: FC = () => {
+  const [resetIsOpen, setResetIsOpen] = useState(false);
+
+  const handleCloseResetModal = () => {
+    setResetIsOpen(false);
+  };
+
+  const handleOpenResetModal = () => {
+    setResetIsOpen(true);
+  };
+
   return (
-    <MobileNavContainer>
-      <Link to="/">
-        <MobileNavItem>
-          <MobileNavIcon src={HomeBlack} alt="Home Icon" />
-          <MobileNavLabel>Home</MobileNavLabel>
+    <>
+      <ModalReset isOpen={resetIsOpen} onClose={handleCloseResetModal} />
+      <Backdrop isOpen={resetIsOpen} onClose={handleCloseResetModal} />
+      <MobileNavContainer>
+        <Link to="/">
+          <MobileNavItem>
+            <MobileNavIcon src={HomeBlack} alt="Home Icon" />
+            <MobileNavLabel>Home</MobileNavLabel>
+          </MobileNavItem>
+        </Link>
+        <Link to="/collection-list">
+          <MobileNavItem>
+            <MobileNavIcon src={CollectionBlack} alt="Collection Icon" />
+            <MobileNavLabel>Collection</MobileNavLabel>
+          </MobileNavItem>
+        </Link>
+        <MobileNavItem onClick={handleOpenResetModal}>
+          <MobileNavReset src={Reset} alt="Reset Icon" />
         </MobileNavItem>
-      </Link>
-      <Link to="/collection-list">
-        <MobileNavItem>
-          <MobileNavIcon src={CollectionBlack} alt="Collection Icon" />
-          <MobileNavLabel>Collection</MobileNavLabel>
-        </MobileNavItem>
-      </Link>
-      <MobileNavItem>
-        <MobileNavReset src={Reset} alt="Reset Icon" />
-      </MobileNavItem>
-    </MobileNavContainer>
+      </MobileNavContainer>
+    </>
   );
 };
 

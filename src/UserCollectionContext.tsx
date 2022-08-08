@@ -12,6 +12,7 @@ type UserCollectionContextType = {
   removeAnimeFromCollection: (collectionName: string, animeId: number) => void;
   removeCollection: (collectionName: string) => void;
   editCollectionName: (collectionName: string, newName: string) => void;
+  resetState: () => void;
 };
 
 const UserCollectionContext = createContext<UserCollectionContextType>({
@@ -21,6 +22,7 @@ const UserCollectionContext = createContext<UserCollectionContextType>({
   removeAnimeFromCollection: (collectionName: string, animeId: number) => {},
   removeCollection: (collectionName: string) => {},
   editCollectionName: (collectionName: string, newName: string) => {},
+  resetState: () => {},
 });
 
 const reducer = (state: singleCollectionType[], action: any) => {
@@ -83,6 +85,8 @@ const reducer = (state: singleCollectionType[], action: any) => {
           return collection;
         })
         .filter((collection) => collection.collectionTitle !== action.collectionName);
+    case 'RESET_STATE':
+      return [];
     default:
       return state;
   }
@@ -115,6 +119,7 @@ export const UserCollectionContextProvider = ({ children }: { children: React.Re
           removeCollection: (collectionName: string) => dispatch({ type: 'REMOVE_COLLECTION', collectionName }),
           editCollectionName: (collectionName: string, newName: string) =>
             dispatch({ type: 'EDIT_COLLECTION_NAME', collectionName, newName }),
+          resetState: () => dispatch({ type: 'RESET_STATE' }),
         } as UserCollectionContextType
       }>
       {children}

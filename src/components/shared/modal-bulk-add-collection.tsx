@@ -241,6 +241,7 @@ const ModalBulkAddCollection: FC<ModalBulkAddCollectionProps> = ({ isOpen, onClo
     addAnimesToManyCollections(animeAdded, selectedCollections);
     setAnimeAdded([]);
     setSelectedCollections([]);
+
     onClose();
   };
 
@@ -257,7 +258,13 @@ const ModalBulkAddCollection: FC<ModalBulkAddCollectionProps> = ({ isOpen, onClo
             anime.map((anime) => (
               <CollectionItem key={anime.id}>
                 <ItemTitle>{anime.title.romaji}</ItemTitle>
-                <Checkbox type="checkbox" value={JSON.stringify(anime)} onChange={handleAnimeCheckboxChange} />
+                <Checkbox
+                  className=".bulk-add-checkboxes"
+                  type="checkbox"
+                  value={JSON.stringify(anime)}
+                  onChange={handleAnimeCheckboxChange}
+                  checked={animeAdded.some((item) => anime.id === item.id)}
+                />
               </CollectionItem>
             ))
           ) : (
