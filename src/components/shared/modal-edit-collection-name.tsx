@@ -35,6 +35,7 @@ const CloseContainer = styled.div`
 const Icon = styled.img`
   width: 1.5rem;
   height: 1.5rem;
+  cursor: pointer;
 `;
 
 const Title = styled.h1`
@@ -84,6 +85,7 @@ const CancelButton = styled.button`
   letter-spacing: 0.1px;
   color: #484649;
   box-sizing: border-box;
+  cursor: pointer;
 `;
 
 const UpdateButton = styled.button`
@@ -103,6 +105,7 @@ const UpdateButton = styled.button`
   letter-spacing: 0.1px;
   color: #ffffff;
   border: none;
+  cursor: pointer;
 `;
 
 const Form = styled.form`

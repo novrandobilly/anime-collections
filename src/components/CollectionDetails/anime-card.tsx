@@ -18,6 +18,10 @@ const AnimeCardContainer = styled.div`
   border-radius: 0.5rem;
   background-color: #ffffff;
   box-shadow: 0px 1.94128px 4.8532px rgba(0, 0, 0, 0.25);
+  @media (min-width: 768px) {
+    max-width: 270px;
+    min-height: 320px;
+  }
 `;
 
 const AnimeCardImage = styled.img`
@@ -25,14 +29,19 @@ const AnimeCardImage = styled.img`
   height: 100px;
   object-fit: cover;
   border-radius: 0.5rem 0.5rem 0 0;
+  @media (min-width: 768px) {
+    max-width: 280px;
+    min-height: 280px;
+  }
 `;
 
 const DetailsContainer = styled.div`
   width: 100%;
+  min-height: 64px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   padding: 0.25rem 1rem;
   box-sizing: border-box;
 `;
@@ -66,6 +75,7 @@ const Genre = styled.p`
 const DeleteIcon = styled.img`
   width: 24px;
   height: 24px;
+  cursor: pointer;
 `;
 
 type AnimeCardProps = {

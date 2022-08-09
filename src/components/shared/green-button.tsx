@@ -11,6 +11,7 @@ const GreenButtonItem = styled.button`
   width: 100%;
   color: #fff;
   border: none;
+  cursor: pointer;
 `;
 
 type Props = {

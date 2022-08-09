@@ -44,6 +44,7 @@ const CloseContainer = styled.div`
 const Icon = styled.img`
   width: 1.5rem;
   height: 1.5rem;
+  cursor: pointer;
 `;
 
 const Title = styled.h1`
@@ -134,6 +135,7 @@ const UpdateButton = styled.button`
   letter-spacing: 0.1px;
   color: #ffffff;
   border: none;
+  cursor: pointer;
   &:disabled {
     background: #e6e6e6;
     color: #484649;

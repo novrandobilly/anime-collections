@@ -24,6 +24,7 @@ const TitleText = styled.h2`
 const EditCollectionIcon = styled.img`
   width: 32px;
   height: 32px;
+  cursor: pointer;
 `;
 
 type TitleBlockProps = {

@@ -24,6 +24,11 @@ const Layout = styled.div`
   padding-bottom: 56px;
   min-height: 100vh;
   box-sizing: border-box;
+  @media (min-width: 768px) {
+    padding-bottom: 0;
+    max-width: 1560px;
+    margin: 0 auto;
+  }
 `;
 
 const AppContainer = styled.div`

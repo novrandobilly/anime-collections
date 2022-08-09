@@ -19,6 +19,15 @@ const CollectionDetailsContainer = styled.div`
   gap: 1rem;
   padding: 0 1rem;
   box-sizing: border-box;
+  @media (min-width: 768px) {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 1.5rem 1rem;
+    flex-wrap: wrap;
+  }
 `;
 
 const EmptyLabel = styled.p`
@@ -29,7 +38,7 @@ const EmptyLabel = styled.p`
   letter-spacing: 0.5px;
   color: #606060;
   text-align: center;
-  margin-top: 1rem;
+  margin: 1rem auto 0;
 `;
 
 const CollectionDetails: FC = () => {
@@ -62,10 +71,10 @@ const CollectionDetails: FC = () => {
   };
 
   const content = animeList.length ? (
-    animeList.map((anime) => {
+    animeList.map((anime, index) => {
       return (
         <AnimeCard
-          key={anime.id}
+          key={`${index}_${anime.id}`}
           anime={{
             title: anime.title.romaji,
             genre: anime.genres,

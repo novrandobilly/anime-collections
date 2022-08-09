@@ -15,6 +15,10 @@ const CardContainer = styled.div`
   background: #ffffff;
   box-shadow: 0px 1.94128px 4.8532px rgba(0, 0, 0, 0.25);
   border-radius: 8px;
+
+  @media (min-width: 768px) {
+    width: 247px;
+    min-height: 307px;
 `;
 
 const Banner = styled.img`
@@ -24,6 +28,11 @@ const Banner = styled.img`
   object-fit: cover;
   object-position: center;
   border-radius: 8px 8px 0px 0px;
+
+  @media (min-width: 768px) {
+    min-width: 247px;
+    height: 259px;
+  }
 `;
 const AddButton = styled.img`
   width: 1.5rem;
@@ -32,6 +41,7 @@ const AddButton = styled.img`
   top: 0.5rem;
   right: 0.5rem;
   z-index: 5;
+  cursor: pointer;
 `;
 
 const CaptionContainer = styled.div`

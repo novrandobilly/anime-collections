@@ -27,15 +27,36 @@ const CardContainer = styled.div`
   box-sizing: border-box;
   gap: 1.5rem 1rem;
   margin-bottom: 1rem;
+
+  @media (min-width: 768px) {
+    padding: 0 40px;
+    justify-content: space-between;
+  }
 `;
 
-const PaginationContainer = styled.div`
+const PaginationContainerSmall = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 0 1rem;
   box-sizing: border-box;
+
+  @media (min-width: 768px) {
+    display: none;
+  }
+`;
+const PaginationContainerLarge = styled.div`
+  width: 100%;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  padding: 0 1rem;
+  box-sizing: border-box;
+
+  @media (min-width: 768px) {
+    display: flex;
+  }
 `;
 
 type PageInfoType = {
@@ -133,9 +154,12 @@ const Homepage: FC = () => {
       <HomepageContainer>
         <BulkAdd />
         {cardContent}
-        <PaginationContainer>
+        <PaginationContainerSmall>
           <Pagination count={24} size="small" onChange={onPageChangeHandler} />
-        </PaginationContainer>
+        </PaginationContainerSmall>
+        <PaginationContainerLarge>
+          <Pagination count={24} size="large" onChange={onPageChangeHandler} />
+        </PaginationContainerLarge>
       </HomepageContainer>
     </>
   );

@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import Backdrop from '../components/shared/backdrop';
 import ModalAddToCollection from '../components/shared/modal-add-to-collection';
 import UserCollectionContext from '../UserCollectionContext';
+import DetailsCardDesktop from '../components/AnimeDetails/details-card-desktop';
 
 import Back from '../assets/icons/back.svg';
 import DefaultImage from '../assets/default/default.jpg';
@@ -18,6 +19,10 @@ const DetailsContainer = styled.div`
   justify-content: flex-start;
   align-items: center;
   width: 100%;
+  @media (min-width: 768px) {
+    max-width: 900px;
+    margin: 0 auto;
+  }
 `;
 
 const BackContainer = styled.div`
@@ -34,6 +39,7 @@ const BackContainer = styled.div`
   font-size: 1rem;
   line-height: 28px;
   color: #484649;
+  cursor: pointer;
 `;
 
 const BackIcon = styled.img`
@@ -50,6 +56,27 @@ const AnimeBanner = styled.img`
   box-sizing: border-box;
   object-fit: cover;
   object-position: center;
+  @media (min-width: 768px) {
+    display: none;
+    max-width: 300px;
+    min-height: 400px;
+  }
+`;
+
+const AnimeBannerDesktop = styled.img`
+  display: none;
+  width: 100%;
+  height: auto;
+  max-height: 229.5px;
+  margin-bottom: 0.5rem;
+  box-sizing: border-box;
+  object-fit: cover;
+  object-position: center;
+  @media (min-width: 768px) {
+    display: inline-block;
+    max-width: 270px;
+    min-height: 360px;
+  }
 `;
 
 const AnimeTitle = styled.h1`
@@ -63,6 +90,22 @@ const AnimeTitle = styled.h1`
   margin: 0 0 0.5rem;
   padding: 0 1rem;
   box-sizing: border-box;
+  @media (min-width: 768px) {
+    display: none;
+  }
+`;
+
+const DesktopHeaderContainer = styled.div`
+  display: none;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  @media (min-width: 768px) {
+    display: flex;
+    padding: 0 1rem;
+    box-sizing: border-box;
+  }
 `;
 
 const AnimeDetails: FC = () => {
@@ -158,6 +201,10 @@ const AnimeDetails: FC = () => {
           <BackIcon src={Back} alt="Back button" />
           Back
         </BackContainer>
+        <DesktopHeaderContainer>
+          <AnimeBannerDesktop src={animeDetails.coverImage.large || DefaultImage} alt="Anime Banner" />
+          <DetailsCardDesktop onOpenAddToCollectionModal={handleOpenAddToCollectionModal} anime={animeDetails} />
+        </DesktopHeaderContainer>
         <AnimeBanner src={animeDetails.coverImage.large || DefaultImage} alt="Anime Banner" />
         <AnimeTitle>{animeDetails.title.romaji}</AnimeTitle>
         <DetailsCard onOpenAddToCollectionModal={handleOpenAddToCollectionModal} anime={animeDetails} />

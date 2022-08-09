@@ -36,6 +36,7 @@ const CloseContainer = styled.div`
 const Icon = styled.img`
   width: 1.5rem;
   height: 1.5rem;
+  cursor: pointer;
 `;
 
 const TitleText = styled.h3`
@@ -46,6 +47,7 @@ const TitleText = styled.h3`
   text-align: center;
   letter-spacing: 0.1px;
   color: #484649;
+  margin-bottom: 1rem;
 `;
 
 const SubTitle = styled.p`
@@ -85,6 +87,7 @@ const CancelButton = styled.button`
   letter-spacing: 0.1px;
   color: #e92119;
   box-sizing: border-box;
+  cursor: pointer;
 `;
 
 const DeleteButton = styled.button`
@@ -104,6 +107,7 @@ const DeleteButton = styled.button`
   letter-spacing: 0.1px;
   color: #ffffff;
   border: none;
+  cursor: pointer;
 `;
 
 type ModalDeleteProps = {

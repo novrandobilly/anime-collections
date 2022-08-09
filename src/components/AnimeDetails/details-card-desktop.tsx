@@ -14,12 +14,14 @@ const DetailsContainer = styled.div`
   padding: 0 1rem;
   box-sizing: border-box;
   width: 100%;
+  min-height: 360px;
 `;
 
 const DetailsCardContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  justify-content: space-between;
   padding: 12px;
   width: 100%;
   background: #fffbfe;
@@ -27,6 +29,7 @@ const DetailsCardContainer = styled.div`
   border-radius: 8px;
   margin-bottom: 1rem;
   box-sizing: border-box;
+  min-height: 360px;
 `;
 
 const CollectionInfoContainer = styled.div`
@@ -38,6 +41,7 @@ const CollectionInfoContainer = styled.div`
 `;
 
 const CollectionInfo = styled.p`
+  display: none;
   font-family: 'Roboto';
   font-style: italic;
   font-weight: 500;
@@ -46,29 +50,21 @@ const CollectionInfo = styled.p`
   letter-spacing: 0.5px;
   color: #939094;
   @media (min-width: 768px) {
-    display: none;
+    display: block;
   }
 `;
 
 const DetailsTextContainer = styled.div`
-  display: flex;
+  display: none;
   align-items: flex-start;
   justify-content: flex-start;
   gap: 0.5rem;
   @media (min-width: 768px) {
-    display: none;
+    display: flex;
   }
 `;
 
 const KeyText = styled.span`
-  font-style: normal;
-  font-weight: 700;
-  font-size: 14px;
-  line-height: 20px;
-  letter-spacing: 0.1px;
-  color: #313033;
-`;
-const KeyTextSynopsis = styled.h4`
   font-style: normal;
   font-weight: 700;
   font-size: 14px;
@@ -85,27 +81,17 @@ const ValueText = styled.span`
   letter-spacing: 0.25px;
   color: #787579;
 `;
-
-const SynopsisContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 0.5rem 0px;
-  width: 304px;
-  border-bottom: 1px solid #c9c5ca;
-  margin: 0 0 1rem;
+const AnimeTitle = styled.h1`
   width: 100%;
-  box-sizing: border-box;
-`;
-
-const SynopsisText = styled.p`
+  font-family: 'Roboto', sans-serif;
   font-style: normal;
   font-weight: 400;
-  font-size: 14px;
-  line-height: 20px;
-  letter-spacing: 0.25px;
+  font-size: 22px;
+  line-height: 28px;
   color: #484649;
-  margin-bottom: 1rem;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 `;
 
 type PropsType = {
@@ -113,7 +99,7 @@ type PropsType = {
   onOpenAddToCollectionModal: () => void;
 };
 
-const DetailsCard: FC<PropsType> = ({ anime, onOpenAddToCollectionModal }) => {
+const DetailsCardDesktop: FC<PropsType> = ({ anime, onOpenAddToCollectionModal }) => {
   const { collectionList } = useContext(UserCollectionContext);
   const [collectionListOfThisAnime, setCollectionListOfThisAnime] = useState<string[]>([]);
 
@@ -134,6 +120,7 @@ const DetailsCard: FC<PropsType> = ({ anime, onOpenAddToCollectionModal }) => {
   return (
     <DetailsContainer>
       <DetailsCardContainer>
+        <AnimeTitle>{anime.title.romaji}</AnimeTitle>
         <CollectionInfoContainer>
           {collectionListOfThisAnime.length < 1 ? (
             <CollectionInfo>You haven't added this masterpiece to any collections</CollectionInfo>
@@ -185,20 +172,11 @@ const DetailsCard: FC<PropsType> = ({ anime, onOpenAddToCollectionModal }) => {
               <ValueText>{anime.siteUrl} </ValueText>
             </a>
           </DetailsTextContainer>
-
-          <div>
-            <SynopsisContainer>
-              <KeyTextSynopsis>Synopsis</KeyTextSynopsis>
-            </SynopsisContainer>
-            {anime.description.split('<br>').map((paragraph, index) => (
-              <SynopsisText key={index}>{paragraph}</SynopsisText>
-            ))}
-          </div>
         </CollectionInfoContainer>
+        <GreenButton onClick={onOpenAddToCollectionModal}>Add To Collection</GreenButton>
       </DetailsCardContainer>
-      <GreenButton onClick={onOpenAddToCollectionModal}>Add To Collection</GreenButton>
     </DetailsContainer>
   );
 };
 
-export default DetailsCard;
+export default DetailsCardDesktop;

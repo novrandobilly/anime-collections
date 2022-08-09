@@ -20,6 +20,11 @@ const CollectionListContainer = styled.div`
   gap: 1rem;
   padding: 0 1rem;
   box-sizing: border-box;
+  @media (min-width: 768px) {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+  }
 `;
 
 const EmptyLabel = styled.p`

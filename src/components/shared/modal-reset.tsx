@@ -51,6 +51,7 @@ const CancelButton = styled.button`
   letter-spacing: 0.1px;
   color: #e92119;
   box-sizing: border-box;
+  cursor: pointer;
 `;
 
 const DeleteButton = styled.button`
@@ -70,6 +71,7 @@ const DeleteButton = styled.button`
   letter-spacing: 0.1px;
   color: #ffffff;
   border: none;
+  cursor: pointer;
 `;
 
 const InfoText = styled.p`

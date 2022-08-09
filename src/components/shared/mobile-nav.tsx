@@ -6,6 +6,7 @@ import CollectionBlack from '../../assets/icons/collection-icon-black.svg';
 import Reset from '../../assets/icons/reset.svg';
 import Backdrop from './backdrop';
 import ModalReset from './modal-reset';
+
 const MobileNavContainer = styled.div`
   width: 100%;
   display: flex;
@@ -18,6 +19,9 @@ const MobileNavContainer = styled.div`
   bottom: 0;
   box-sizing: border-box;
   z-index: 10;
+  @media (min-width: 768px) {
+    display: none;
+  }
 `;
 
 const MobileNavItem = styled.nav`

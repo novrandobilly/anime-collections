@@ -12,6 +12,10 @@ const BulkAddContainer = styled.div`
   gap: 0.25rem;
   padding: 0 1rem;
   margin-bottom: 1rem;
+
+  @media (min-width: 768px) {
+    padding: 0 40px;
+  }
 `;
 
 const Label = styled.p`
@@ -23,17 +27,29 @@ const Label = styled.p`
   text-align: center;
   letter-spacing: 0.5px;
   color: #484649;
+
+  @media (min-width: 768px) {
+    font-size: 20px;
+    line-height: 24px;
+  }
 `;
 
 const BulkAddIcon = styled.img`
   width: 1.5rem;
   height: 1.5rem;
+
+  @media (min-width: 768px) {
+    width: 2rem;
+    height: 2rem;
+  }
 `;
 
 const BulkAddAligner = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
 `;
 
 const BulkAdd: FC = () => {

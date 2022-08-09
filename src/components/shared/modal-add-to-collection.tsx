@@ -40,6 +40,7 @@ const CloseContainer = styled.div`
 const Icon = styled.img`
   width: 1.5rem;
   height: 1.5rem;
+  cursor: pointer;
 `;
 
 const Title = styled.h1`
@@ -87,7 +88,8 @@ const CollectionItem = styled.div`
   justify-content: space-between;
 `;
 
-const ItemTitle = styled.h4`
+const ItemTitle = styled.label`
+  font-family: 'Roboto', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -95,11 +97,13 @@ const ItemTitle = styled.h4`
   text-align: center;
   letter-spacing: 0.25px;
   color: #484649;
+  cursor: pointer;
 `;
 
 const Checkbox = styled.input`
   width: 1rem;
   height: 1rem;
+  cursor: pointer;
 `;
 
 const UpdateButton = styled.button`
@@ -119,6 +123,7 @@ const UpdateButton = styled.button`
   letter-spacing: 0.1px;
   color: #ffffff;
   border: none;
+  cursor: pointer;
   &:disabled {
     background: #e6e6e6;
     color: #484649;
@@ -226,8 +231,9 @@ const ModalAddToCollection: FC<ModalAddToCollectionProps> = ({ isOpen, onClose, 
         <CollectionItemContainer>
           {collectionList.map((collection, index) => (
             <CollectionItem key={`collection-${index}`}>
-              <ItemTitle>{collection.collectionTitle}</ItemTitle>
+              <ItemTitle htmlFor={collection.collectionTitle}>{collection.collectionTitle}</ItemTitle>
               <Checkbox
+                id={collection.collectionTitle}
                 type="checkbox"
                 value={collection.collectionTitle}
                 onChange={handleCheckboxChange}
