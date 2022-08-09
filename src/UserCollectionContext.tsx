@@ -45,9 +45,16 @@ const reducer = (state: singleCollectionType[], action: any) => {
             return {
               ...collection,
               animeCollection: [...collection.animeCollection, ...action.animes].filter(
-                (item, index, fullArray) => index === fullArray.indexOf(item)
+                (item, index, fullArray) => index === fullArray.findIndex((i) => i.id === item.id)
               ),
             };
+            // ======================Filter duplicate - Buggy code below (don't use)=====================
+            // return {
+            //   ...collection,
+            //   animeCollection: [...collection.animeCollection, ...action.animes].filter(
+            //     (item, index, fullArray) => index === fullArray.indexOf(item)
+            //   ),
+            // };
           }
         }
         return collection;
